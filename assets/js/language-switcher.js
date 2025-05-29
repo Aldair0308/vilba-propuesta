@@ -37,23 +37,26 @@ const languageSwitcher = {
   },
 
   createLanguageSelector: function() {
-    const selector = document.createElement('div');
-    selector.className = 'language-selector';
-    selector.innerHTML = `
-      <button class="lang-btn ${this.currentLanguage === 'en' ? 'active' : ''}" data-lang="en">EN</button>
-      <button class="lang-btn ${this.currentLanguage === 'es' ? 'active' : ''}" data-lang="es">ES</button>
-    `;
-    
-    document.querySelector('header').appendChild(selector);
-    
-    selector.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        this.currentLanguage = e.target.dataset.lang;
-        this.applyTranslations();
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
+    const nav = document.querySelector('.main-menu ul');
+    if (nav) {
+      // const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="#" class="lang-btn ${this.currentLanguage === 'en' ? 'active' : ''}" data-lang="en">EN</a>
+        <span class="separator">/</span>
+        <a href="#" class="lang-btn ${this.currentLanguage === 'es' ? 'active' : ''}" data-lang="es">ES</a>
+      `;
+      nav.appendChild(li);
+      
+      li.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.currentLanguage = e.target.dataset.lang;
+          this.applyTranslations();
+          document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+        });
       });
-    });
+    }
   },
 
   applyTranslations: function() {
